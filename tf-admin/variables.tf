@@ -5,12 +5,12 @@ variable "tfc_organization" {
 }
 
 variable "workspace_names" {
-    type = map(string)
+    type = map
     description = "List of TFC Workspace Names to create"
     default = [
         "tf-hcp-vault", 
         "tf-hcp-vault-configs", 
-        "vault-backed-aws", 
+        "vault-backed-aws",
         "vault-backed-azure"
         ]
 }
