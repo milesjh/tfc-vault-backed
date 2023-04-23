@@ -5,7 +5,7 @@ variable "tfc_organization" {
 }
 
 variable "workspace_names" {
-    type = map
+    type = set
     description = "List of TFC Workspace Names to create"
     default = [
         "tf-hcp-vault", 
