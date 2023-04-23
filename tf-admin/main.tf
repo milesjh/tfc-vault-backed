@@ -45,7 +45,7 @@ resource "tfe_workspace" "tf-hcp-vault" {
   project_id = tfe_project.solution_series.id
   execution_mode = "remote"
   working_directory = "${each.key}"
-  trigger_prefixes = "${each.key}"
+  trigger_prefixes = ["${each.key}"]
   vcs_repo {
     identifier = "milesjh/tfc-vault-backed"
     oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
