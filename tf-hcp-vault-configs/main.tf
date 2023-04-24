@@ -53,9 +53,9 @@ data "tfe_outputs" "tf-hcp-vault" {
 }
 
 provider "vault" {
-  address   = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
-  token     = data.tfe_outputs.tf-hcp-vault.values.vault_admin_token
-  namespace = "admin"
+  # address   = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
+  # token     = data.tfe_outputs.tf-hcp-vault.values.vault_admin_token
+  # namespace = "admin"
 }
 
 resource "vault_mount" "kvv2" {
