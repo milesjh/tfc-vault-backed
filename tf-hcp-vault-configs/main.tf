@@ -48,8 +48,8 @@ data "tfe_outputs" "vault_cluster" {
 }
 
 provider "vault" {
-  address   = data.tfe_outputs.vault_public_endpoint_url
-  token     = data.tfe_outputs.vault_admin_token
+  address   = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
+  token     = data.tfe_outputs.tf-hcp-vault.values.vault_admin_token
   namespace = "admin"
 }
 
@@ -92,7 +92,7 @@ resource "tfe_variable_set" "vault_backed_aws_role" {
 resource "tfe_variable" "vault_backed_aws_role" {
   for_each = {
     TFC_VAULT_PROVIDER_AUTH             = "true"
-    TFC_VAULT_ADDR                      = data.tfe_outputs.vault_public_endpoint_url
+    TFC_VAULT_ADDR                      = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
     TFC_VAULT_NAMESPACE                 = "admin"
     TFC_VAULT_RUN_ROLE                  = var.tfc_vault_role
     TFC_VAULT_BACKED_AWS_AUTH           = "true"
@@ -116,7 +116,7 @@ resource "tfe_variable_set" "vault_backed_aws_iam" {
 resource "tfe_variable" "vault_backed_aws_iam" {
   for_each = {
     TFC_VAULT_PROVIDER_AUTH             = "true"
-    TFC_VAULT_ADDR                      = data.tfe_outputs.vault_public_endpoint_url
+    TFC_VAULT_ADDR                      = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
     TFC_VAULT_NAMESPACE                 = "admin"
     TFC_VAULT_RUN_ROLE                  = var.tfc_vault_role
     TFC_VAULT_BACKED_AWS_AUTH           = "true"
