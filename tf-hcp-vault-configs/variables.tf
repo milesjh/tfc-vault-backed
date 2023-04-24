@@ -14,7 +14,7 @@ variable "tfc_vault_role" {
   default     = "tfc-role"
 }
 
-# variable "google_project_id" {
-#   type        = string
-#   description = "ID of the Google Cloud project."
-# }
+variable "google_project_id" {
+  type        = string
+  description = "ID of the Google Cloud project."
+}

@@ -31,7 +31,7 @@ variable "tf-hcp-vault-configs-vars" {
   description = "Variables to add to tf-hcp-vault-configs workspace"
   default = {
     aws_region        = "us-east-2"
-    tfc-organization  = "milesjh-sandbox"
+    tfc_organization  = "milesjh-sandbox"
     google_project_id = "null"
     tfc_vault_role    = "tfc-role"
   }
