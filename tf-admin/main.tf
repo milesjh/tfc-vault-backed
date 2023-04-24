@@ -58,7 +58,7 @@ resource "tfe_variable" "tf-hcp-vault" {
   key          = each.key
   value        = each.value
   category     = "terraform"
-  workspace_id = tfe_workspace.main.0.id
+  workspace_id = tfe_workspace.main["tf-hcp-vault"].id
 }
 
 resource "tfe_variable" "tf-hcp-vault-configs" {
@@ -67,7 +67,7 @@ resource "tfe_variable" "tf-hcp-vault-configs" {
   key          = each.key
   value        = each.value
   category     = "terraform"
-  workspace_id = tfe_workspace.main.1.id
+  workspace_id = tfe_workspace.main["tf-hcp-vault-configs"].id
 }
 
 # resource "tfe_workspace" "tf-hcp-vault-configs" {
