@@ -42,7 +42,7 @@ data "tfe_organization" "current" {
   name = var.tfc_organization
 }
 
-data "tfe_outputs" "vault_cluster" {
+data "tfe_outputs" "tf-hcp-vault" {
   organization = var.tfc_organization
   workspace    = "tf-hcp-vault"
 }
