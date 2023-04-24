@@ -1,6 +1,6 @@
 output "vault_target_iam_role_arn" {
   description = "The AWS IAM role ARN for the Vault assume role credential type."
-  value       = data.aws_iam_role.vault_target_iam_role.arn
+  value       = aws_iam_role.vault_target_iam_role.arn
 }
 
 output "vault_role_iam_user_credential_type" {
