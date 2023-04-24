@@ -1,8 +1,8 @@
 terraform {
   required_providers {
-    google = {
+    azurerm = {
       version = "~> 3.0"
-      source  = "hashicorp/google"
+      source  = "hashicorp/azurerm"
     }
 
     vault = {

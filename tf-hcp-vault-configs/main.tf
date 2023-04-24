@@ -44,7 +44,7 @@ data "tfe_organization" "current" {
 
 data "tfe_outputs" "tf-admin" {
   organization = var.tfc_organization
-  workspace = "tf-admin"
+  workspace    = "tf-admin"
 }
 
 data "tfe_outputs" "tf-hcp-vault" {
@@ -137,7 +137,7 @@ resource "tfe_variable" "vault_backed_aws_iam" {
 
 resource "tfe_workspace_variable_set" "vault_backed_aws_iam" {
   variable_set_id = tfe_variable_set.vault_backed_aws_iam.id
-  workspace_id      = data.tfe_outputs.tf-admin.values.aws_workspace_id
+  workspace_id    = data.tfe_outputs.tf-admin.values.aws_workspace_id
 }
 
 # module "google_secrets" {
@@ -179,3 +179,38 @@ resource "tfe_workspace_variable_set" "vault_backed_aws_iam" {
 #   variable_set_id = tfe_variable_set.vault_backed_gcp.id
 #   project_id      = data.tfe_project.gcp.id
 # }
+
+module "azure_secrets" {
+  source        = "./modules/azure-secrets-engine"
+  email_address = data.tfe_organization.current.email
+}
+
+resource "tfe_variable_set" "vault_backed_azure" {
+  organization = var.tfc_organization
+  name         = "Azure Vault-Backed Dynamic Credentials"
+  description  = "Vault-backed dynamic credentials for Azure provider."
+}
+
+resource "tfe_variable" "vault_backed_azure" {
+  for_each = {
+    TFC_VAULT_PROVIDER_AUTH               = "true"
+    TFC_VAULT_ADDR                        = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
+    TFC_VAULT_NAMESPACE                   = "admin"
+    TFC_VAULT_RUN_ROLE                    = var.tfc_vault_role
+    TFC_VAULT_BACKED_AZURE_AUTH           = "true"
+    TFC_VAULT_BACKED_AZURE_RUN_VAULT_ROLE = module.aws_secrets.vault_role_iam_user_credential_type
+    ARM_SUBSCRIPTION_ID                   = "14692f20-9428-451b-8298-102ed4e39c2a"
+    ARM_TENANT_ID                         = "0e3e2e88-8caf-41ca-b4da-e3b33b6c52ec"
+  }
+
+  category        = "env"
+  key             = each.key
+  value           = each.value
+  variable_set_id = tfe_variable_set.vault_backed_azure.id
+}
+
+resource "tfe_workspace_variable_set" "vault_backed_azure" {
+  variable_set_id = tfe_variable_set.vault_backed_azure.id
+  workspace_id    = data.tfe_outputs.tf-admin.values.azure_workspace_id
+}
+
