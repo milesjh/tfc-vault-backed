@@ -18,7 +18,7 @@ resource "vault_aws_secret_backend_role" "vault_role_federation_token_credential
   backend         = vault_aws_secret_backend.vault_aws.path
   credential_type = "federation_token"
   name            = "vault-demo-federation-token"
-  policy_document = aws_iam_policy_document.vault_dynamic_iam_user_policy.policy
+  policy_document = aws_iam_policy.vault_dynamic_iam_user_policy.policy
 }
 
 # resource "vault_aws_secret_backend_role" "vault_role_assumed_role_credential_type" {
