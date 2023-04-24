@@ -40,12 +40,13 @@ resource "tfe_agent_pool" "vault" {
 resource "tfe_workspace" "main" {
   for_each = var.workspace_names
 
-  name              = each.key
-  organization      = tfe_project.solution_series.organization
-  project_id        = tfe_project.solution_series.id
-  execution_mode    = "remote"
-  working_directory = each.key
-  trigger_prefixes  = ["${each.key}"]
+  name                = each.key
+  organization        = tfe_project.solution_series.organization
+  project_id          = tfe_project.solution_series.id
+  execution_mode      = "remote"
+  working_directory   = each.key
+  trigger_prefixes    = ["${each.key}"]
+  global_remote_state = true
   vcs_repo {
     identifier     = "milesjh/tfc-vault-backed"
     oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
