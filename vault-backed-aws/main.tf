@@ -9,7 +9,7 @@ terraform {
   cloud {
     organization = "milesjh-sandbox"
     workspaces {
-      name = "vault-backed-aws-demo"
+      name = "vault-backed-aws"
     }
   }
 }

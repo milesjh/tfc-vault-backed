@@ -213,6 +213,13 @@ resource "tfe_variable" "vault_backed_azure" {
   variable_set_id = tfe_variable_set.vault_backed_azure.id
 }
 
+resource "tfe_variable" "azure_rg_name" {
+  category        = "terraform"
+  key             = "rg_name"
+  value           = "milesjh-sandbox-rg"
+  variable_set_id = tfe_variable_set.vault_backed_azure.id
+}
+
 resource "tfe_workspace_variable_set" "vault_backed_azure" {
   variable_set_id = tfe_variable_set.vault_backed_azure.id
   workspace_id    = data.tfe_outputs.tf-admin.values.azure_workspace_id
