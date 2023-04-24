@@ -6,16 +6,16 @@ terraform {
     }
   }
 
-  cloud {
-    organization = "milesjh-sandbox"
-    workspaces {
-      tags = [
-        "application:tfc",
-        "cloud:tfc",
-        "env:demo"
-      ]
-    }
-  }
+  # cloud {
+  #   organization = "milesjh-sandbox"
+  #   workspaces {
+  #     tags = [
+  #       "application:tfc",
+  #       "cloud:tfc",
+  #       "env:demo"
+  #     ]
+  #   }
+  # }
 }
 
 data "tfe_organization" "current" {
