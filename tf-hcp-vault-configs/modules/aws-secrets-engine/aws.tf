@@ -59,6 +59,14 @@ data "aws_iam_policy_document" "vault_dynamic_iam_user_policy" {
   }
 }
 
+data "aws_iam_policy_document" "vault_dynamic_iam_role_policy" {
+  statement {
+    sid       = "VaultDemoRoleDescribeEC2Regions"
+    actions   = ["ec2:DescribeRegions", "ec2:DescribeInstances"]
+    resources = ["*"]
+  }
+}
+
 # data "aws_iam_role" "vault_target_iam_role" {
 #   name = "vault-assumed-role-credentials-demo"
 # }
@@ -66,5 +74,5 @@ data "aws_iam_policy_document" "vault_dynamic_iam_user_policy" {
 resource "aws_iam_role" "vault_target_iam_role" {
   name               = "vault-assumed-role-credentials-demo"
   path               = "/system/"
-  assume_role_policy = data.aws_iam_policy_document.vault_dynamic_iam_user_policy.json
+  assume_role_policy = data.aws_iam_policy_document.vault_dynamic_iam_role_policy.json
 }
