@@ -10,7 +10,7 @@ resource "vault_aws_secret_backend_role" "vault_role_iam_user_credential_type" {
   backend                  = vault_aws_secret_backend.vault_aws.path
   credential_type          = "iam_user"
   name                     = "vault-demo-iam-user"
-  permissions_boundary_arn = aws_iam_policy.demo_user_permissions_boundary.arn
+  permissions_boundary_arn = aws_iam_policy.vault_aws_mount_demo_user_permissions.arn
   policy_document          = data.aws_iam_policy_document.vault_dynamic_iam_user_policy.json
 }
 
