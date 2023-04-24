@@ -12,6 +12,27 @@ data "aws_region" "current" {}
 #   name = "DemoUser"
 # }
 
+resource "aws_iam_policy" "demo_user_permissions_boundary" {
+  name        = "DemoUser"
+  path        = "/"
+  description = "Demo user policy"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ec2:Describe*",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
 resource "aws_iam_policy" "vault_aws_mount_demo_user_permissions" {
   name        = "VaultAWSDemoUser"
   path        = "/"
