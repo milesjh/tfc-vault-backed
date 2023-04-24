@@ -65,8 +65,8 @@ resource "vault_mount" "kvv2" {
 }
 
 resource "vault_kv_secret_backend_v2" "example" {
-  mount                = vault_mount.kvv2.path
-  max_versions         = 5
+  mount        = vault_mount.kvv2.path
+  max_versions = 5
 }
 
 module "jwt_auth" {
@@ -88,10 +88,10 @@ resource "tfe_variable_set" "vault_backed_aws_role" {
   description  = "Vault-backed dynamic credentials for AWS provider using assume_role."
 }
 
-moved {
-  from = tfe_variable_set.vault_backed_aws
-  to   = tfe_variable_set.vault_backed_aws_role
-}
+# moved {
+#   from = tfe_variable_set.vault_backed_aws
+#   to   = tfe_variable_set.vault_backed_aws_role
+# }
 
 resource "tfe_variable" "vault_backed_aws_role" {
   for_each = {
@@ -135,7 +135,7 @@ resource "tfe_variable" "vault_backed_aws_iam" {
 }
 
 module "google_secrets" {
-  count = var.google_project_id == null ? 0 : 1
+  count      = var.google_project_id == null ? 0 : 1
   source     = "./modules/gcp-secrets-engine"
   project_id = var.google_project_id
 }
