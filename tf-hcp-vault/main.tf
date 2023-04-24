@@ -77,5 +77,5 @@ resource "tfe_variable" "vault_dyn_creds" {
 
 resource "tfe_workspace_variable_set" "vault_dyn_creds" {
   variable_set_id = tfe_variable_set.vault_dyn_creds.id
-  workspace_id      = data.tfe_outputs.tf-admin.values.vault_workspace_id
+  workspace_id      = data.tfe_outputs.tf-admin.values.vault_configs_workspace_id
 }
