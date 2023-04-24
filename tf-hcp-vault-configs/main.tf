@@ -70,6 +70,19 @@ resource "vault_kv_secret_backend_v2" "example" {
   max_versions = 5
 }
 
+resource "vault_kv_secret_v2" "example" {
+  mount               = vault_mount.kvv2.path
+  name                = "secret"
+  cas                 = 1
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      zip = "zap",
+      foo = "bar"
+    }
+  )
+}
+
 module "jwt_auth" {
   source                = "./modules/jwt-auth"
   tfc_organization_name = var.tfc_organization
