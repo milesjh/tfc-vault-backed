@@ -20,26 +20,26 @@ variable "google_project_id" {
 }
 
 variable "client_id" {
-  type = string
+  type        = string
   description = "Azure static cred params for Vault Config"
 }
 
 variable "client_secret" {
-  type = string
+  type        = string
   description = "Azure static cred params for Vault Config"
 }
 
 variable "subscription_id" {
-  type = string
+  type        = string
   description = "Azure static cred params for Vault Config"
 }
 
 variable "tenant_id" {
-  type = string
+  type        = string
   description = "Azure static cred params for Vault Config"
 }
 
 variable "rg_name" {
-  type = string
+  type        = string
   description = "Azure static cred params for Vault Config"
 }

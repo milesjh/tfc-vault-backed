@@ -20,32 +20,43 @@ resource "aws_iam_policy" "vault_aws_mount_demo_user_permissions" {
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Effect": "Allow",
-        "Action": [
-          "iam:AttachUserPolicy",
+        "Effect" : "Allow",
+        "Action" : [
           "iam:CreateAccessKey",
-          "iam:CreateUser",
           "iam:DeleteAccessKey",
           "iam:DeleteUser",
-          "iam:DeleteUserPolicy",
-          "iam:DetachUserPolicy",
-          "iam:GetUser",
           "iam:ListAccessKeys",
           "iam:ListAttachedUserPolicies",
           "iam:ListGroupsForUser",
           "iam:ListUserPolicies",
-          "iam:PutUserPolicy",
           "iam:AddUserToGroup",
           "iam:RemoveUserFromGroup"
         ],
-        "Resource": ["arn:aws:iam::710320297709:user/vault-*"]
+        "Resource" : ["arn:aws:iam::${var.aws_account_id}:user/vault-*"]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "iam:AttachUserPolicy",
+          "iam:CreateUser",
+          "iam:DeleteUserPolicy",
+          "iam:DetachUserPolicy",
+          "iam:PutUserPolicy"
+        ],
+        "Resource" : ["arn:aws:iam::${var.aws_account_id}:user/vault-*"],
+        "Condition" : {
+          "StringEquals" : {
+            "iam:PermissionsBoundary" : [
+              "arn:aws:iam::${var.aws_account_id}:policy/PolicyName"
+            ]
+          }
+        }
       }
     ]
-  }
-)
+  })
 }
 
 resource "aws_iam_user" "vault_mount_user" {

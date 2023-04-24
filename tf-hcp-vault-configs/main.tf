@@ -44,7 +44,7 @@ data "tfe_organization" "current" {
 
 data "tfe_outputs" "tf-admin" {
   organization = var.tfc_organization
-  workspace = "tf-admin"
+  workspace    = "tf-admin"
 }
 
 data "tfe_outputs" "tf-hcp-vault" {
@@ -150,7 +150,7 @@ resource "tfe_variable" "vault_backed_aws_iam" {
 
 resource "tfe_workspace_variable_set" "vault_backed_aws_iam" {
   variable_set_id = tfe_variable_set.vault_backed_aws_iam.id
-  workspace_id      = data.tfe_outputs.tf-admin.values.aws_workspace_id
+  workspace_id    = data.tfe_outputs.tf-admin.values.aws_workspace_id
 }
 
 # module "google_secrets" {
@@ -194,12 +194,12 @@ resource "tfe_workspace_variable_set" "vault_backed_aws_iam" {
 # }
 
 module "azure_secrets" {
-  source        = "./modules/azure-secrets-engine"
-  client_id = var.client_id
-  client_secret = var.client_secret
+  source          = "./modules/azure-secrets-engine"
+  client_id       = var.client_id
+  client_secret   = var.client_secret
   subscription_id = var.subscription_id
-  tenant_id = var.tenant_id
-  rg_name = var.rg_name
+  tenant_id       = var.tenant_id
+  rg_name         = var.rg_name
 }
 
 resource "tfe_variable_set" "vault_backed_azure" {
@@ -210,14 +210,14 @@ resource "tfe_variable_set" "vault_backed_azure" {
 
 resource "tfe_variable" "vault_backed_azure" {
   for_each = {
-    TFC_VAULT_PROVIDER_AUTH             = "true"
-    TFC_VAULT_ADDR                      = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
-    TFC_VAULT_NAMESPACE                 = "admin"
-    TFC_VAULT_RUN_ROLE                  = var.tfc_vault_role
+    TFC_VAULT_PROVIDER_AUTH               = "true"
+    TFC_VAULT_ADDR                        = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
+    TFC_VAULT_NAMESPACE                   = "admin"
+    TFC_VAULT_RUN_ROLE                    = var.tfc_vault_role
     TFC_VAULT_BACKED_AZURE_AUTH           = "true"
     TFC_VAULT_BACKED_AZURE_RUN_VAULT_ROLE = module.azure_secrets.vault_azure_role
-    ARM_SUBSCRIPTION_ID = var.subscription_id
-    ARM_TENANT_ID = var.tenant_id
+    ARM_SUBSCRIPTION_ID                   = var.subscription_id
+    ARM_TENANT_ID                         = var.tenant_id
   }
 
   category        = "env"

@@ -26,7 +26,7 @@ data "azurerm_resource_group" "main" {
 
 data "vault_kv_secret_v2" "example" {
   mount = "kv"
-  name = "secret"
+  name  = "secret"
 }
 
 resource "azurerm_virtual_network" "main" {
