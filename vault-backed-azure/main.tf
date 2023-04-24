@@ -18,8 +18,15 @@ provider "azurerm" {
   features {}
 }
 
+provider "vault" {}
+
 data "azurerm_resource_group" "main" {
   name = var.rg_name
+}
+
+data "vault_kv_secret_v2" "example" {
+  mount = "kv"
+  name = "secret"
 }
 
 resource "azurerm_virtual_network" "main" {
@@ -39,7 +46,8 @@ resource "azurerm_virtual_network" "main" {
     address_prefix = "10.0.2.0/24"
   }
 
-  tags = {
-    environment = "sandbox"
-  }
+  tags = data.vault_kv_secret_v2.example.data
+  # {
+  #   environment = "sandbox"
+  # }
 }
