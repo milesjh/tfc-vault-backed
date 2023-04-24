@@ -33,27 +33,14 @@ resource "aws_iam_policy" "vault_aws_mount_demo_user_permissions" {
           "iam:ListGroupsForUser",
           "iam:ListUserPolicies",
           "iam:AddUserToGroup",
-          "iam:RemoveUserFromGroup"
-        ],
-        "Resource" : ["arn:aws:iam::${var.aws_account_id}:user/vault-*"]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
+          "iam:RemoveUserFromGroup",
           "iam:AttachUserPolicy",
           "iam:CreateUser",
           "iam:DeleteUserPolicy",
           "iam:DetachUserPolicy",
           "iam:PutUserPolicy"
         ],
-        "Resource" : ["arn:aws:iam::${var.aws_account_id}:user/vault-*"],
-        "Condition" : {
-          "StringEquals" : {
-            "iam:PermissionsBoundary" : [
-              "arn:aws:iam::${var.aws_account_id}:policy/PolicyName"
-            ]
-          }
-        }
+        "Resource" : ["arn:aws:iam::${var.aws_account_id}:user/vault-*"]
       }
     ]
   })
