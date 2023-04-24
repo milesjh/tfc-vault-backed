@@ -3,6 +3,12 @@ variable "prefix" {
   description = "This prefix will be used to generate unique resource names."
 }
 
+variable "tfc_organization" {
+  type        = string
+  description = "The TFC organization to set up."
+  default     = "milesjh-sandbox"
+}
+
 variable "cloud_provider" {
   type        = string
   description = "Cloud provider where the HVN and Vault cluster will be located."

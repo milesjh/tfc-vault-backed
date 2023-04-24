@@ -6,10 +6,15 @@ terraform {
       source  = "hashicorp/hcp"
       version = ">= 0.43"
     }
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "~> 0.44"
+    }
   }
 }
 
 provider "hcp" {}
+provider "tfe" {}
 
 locals {
   supported_regions = {
@@ -43,4 +48,29 @@ resource "hcp_vault_cluster" "this" {
 
 resource "hcp_vault_cluster_admin_token" "admin" {
   cluster_id = hcp_vault_cluster.this.cluster_id
+}
+
+resource "tfe_variable_set" "vault_dyn_creds" {
+  organization = var.tfc_organization
+  name         = "Vault Dynamic Credentials"
+  description  = "Vault dynamic credentials."
+}
+
+resource "tfe_variable" "vault_dyn_creds" {
+  for_each = {
+    TFC_VAULT_PROVIDER_AUTH             = "true"
+    TFC_VAULT_ADDR                      = hcp_vault_cluster.this.vault_public_endpoint_url
+    TFC_VAULT_NAMESPACE                 = "admin"
+    TFC_VAULT_RUN_ROLE                  = var.tfc_vault_role
+  }
+
+  category        = "env"
+  key             = each.key
+  value           = each.value
+  variable_set_id = tfe_variable_set.vault_dyn_creds.id
+}
+
+resource "tfe_workspace_variable_set" "vault_dyn_creds" {
+  variable_set_id = tfe_variable_set.vault_dyn_creds.id
+  workspace_id      = data.tfe_outputs.tf-admin.values.vault_workspace_id
 }
