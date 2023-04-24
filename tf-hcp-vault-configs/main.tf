@@ -137,7 +137,7 @@ resource "tfe_variable" "vault_backed_aws_iam" {
 
 resource "tfe_workspace_variable_set" "vault_backed_aws" {
   variable_set_id = tfe_variable_set.vault_backed_aws.id
-  workspace_id      = data.tfe_outputs.tf-admin.values.workspace_id["vault_backed_aws"]
+  workspace_id      = data.tfe_outputs.tf-admin.values.aws_workspace_id
 }
 
 # module "google_secrets" {
