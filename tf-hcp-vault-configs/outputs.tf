@@ -3,10 +3,10 @@ output "vault_jwt_role" {
   value       = module.jwt_auth.vault_role_jwt_auth
 }
 
-output "vault_target_iam_role_arn" {
-  description = "The AWS IAM role ARN for the Vault assume role credential type."
-  value       = module.aws_secrets.vault_target_iam_role_arn
-}
+# output "vault_target_iam_role_arn" {
+#   description = "The AWS IAM role ARN for the Vault assume role credential type."
+#   value       = module.aws_secrets.vault_target_iam_role_arn
+# }
 
 output "vault_role_iam_user_credential_type" {
   value       = module.aws_secrets.vault_role_iam_user_credential_type
