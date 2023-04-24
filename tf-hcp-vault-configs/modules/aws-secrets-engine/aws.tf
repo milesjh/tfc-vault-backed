@@ -73,6 +73,6 @@ data "aws_iam_policy_document" "vault_dynamic_iam_role_policy" {
 
 resource "aws_iam_role" "vault_target_iam_role" {
   name               = "vault-assumed-role-credentials-demo"
-  path               = "/system/"
+  path               = "/"
   assume_role_policy = data.aws_iam_policy_document.vault_dynamic_iam_role_policy.json
 }
