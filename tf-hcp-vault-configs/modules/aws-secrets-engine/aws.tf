@@ -41,6 +41,17 @@ resource "aws_iam_policy" "vault_aws_mount_demo_user_permissions" {
           "iam:PutUserPolicy"
         ],
         "Resource" : ["arn:aws:iam::${var.aws_account_id}:user/vault-*"]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "ec2:*",
+          "elasticloadbalancing:*",
+          "cloudwatch:*",
+          "autoscaling:*",
+          "iam:CreateServiceLinkedRole"
+        ]
+        "Resource" : "*"
       }
     ]
   })
@@ -64,12 +75,37 @@ resource "aws_iam_access_key" "vault_mount_user" {
 
 # Vault Mount AWS Role Setup
 
-data "aws_iam_policy_document" "vault_dynamic_iam_user_policy" {
-  statement {
-    sid       = "VaultDemoUserDescribeEC2Regions"
-    actions   = ["ec2:DescribeRegions", "ec2:DescribeInstances"]
-    resources = ["*"]
-  }
+# data "aws_iam_policy_document" "vault_dynamic_iam_user_policy" {
+#   statement {
+#     sid       = "VaultDemoUserDescribeEC2Regions"
+#     actions   = ["ec2:DescribeRegions", "ec2:DescribeInstances"]
+#     resources = ["*"]
+#   }
+# }
+
+resource "aws_iam_policy" "vault_dynamic_iam_user_policy" {
+  name        = "DynamicVaultUser-EC2"
+  path        = "/"
+  description = "EC2 User Policy to be used with Vault dynamic IAM Users"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "ec2:*",
+          "elasticloadbalancing:*",
+          "cloudwatch:*",
+          "autoscaling:*",
+          "iam:CreateServiceLinkedRole"
+        ]
+        "Resource" : "*"
+      }
+    ]
+  })
 }
 
 # data "aws_iam_policy_document" "vault_dynamic_iam_role_policy" {
