@@ -23,12 +23,12 @@ output "vault_role_federation_token_credential_type" {
   description = "The Vault role for AWS `federation_token` credential type."
 }
 
-output "vault_role_gcp_viewer" {
-  description = "The Vault roleset for Google Cloud viewer access."
-  value       = module.google_secrets[0].vault_role_gcp_viewer
-}
+# output "vault_role_gcp_viewer" {
+#   description = "The Vault roleset for Google Cloud viewer access."
+#   value       = module.google_secrets[0].vault_role_gcp_viewer
+# }
 
-output "vault_role_gcp_editor" {
-  description = "The Vault roleset for Google Cloud editor access."
-  value       = module.google_secrets[0].vault_role_gcp_editor
-}
+# output "vault_role_gcp_editor" {
+#   description = "The Vault roleset for Google Cloud editor access."
+#   value       = module.google_secrets[0].vault_role_gcp_editor
+# }
