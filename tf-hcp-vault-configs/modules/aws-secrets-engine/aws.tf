@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "vault_dynamic_iam_role_policy" {
   statement {
     sid       = "VaultDemoRoleDescribeEC2Regions"
     actions   = ["ec2:DescribeRegions", "ec2:DescribeInstances"]
-    resources = ["*"]
+    # resources = ["*"]
   }
 }
 
