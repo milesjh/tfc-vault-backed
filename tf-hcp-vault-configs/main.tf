@@ -42,6 +42,11 @@ data "tfe_organization" "current" {
   name = var.tfc_organization
 }
 
+data "tfe_outputs" "tf-admin" {
+  organization = var.tfc_organization
+  workspace = "tf-admin"
+}
+
 data "tfe_outputs" "tf-hcp-vault" {
   organization = var.tfc_organization
   workspace    = "tf-hcp-vault"
@@ -128,6 +133,11 @@ resource "tfe_variable" "vault_backed_aws_iam" {
   key             = each.key
   value           = each.value
   variable_set_id = tfe_variable_set.vault_backed_aws_iam.id
+}
+
+resource "tfe_workspace_variable_set" "vault_backed_aws" {
+  variable_set_id = tfe_variable_set.vault_backed_aws.id
+  workspace_id      = data.tfe_outputs.tf-admin.values.workspace_id["vault_backed_aws"]
 }
 
 # module "google_secrets" {
