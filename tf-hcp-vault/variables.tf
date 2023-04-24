@@ -3,17 +3,17 @@ variable "prefix" {
   description = "This prefix will be used to generate unique resource names."
 }
 
-variable "tfc_organization" {
-  type        = string
-  description = "The TFC organization to set up."
-  default     = "milesjh-sandbox"
-}
+# variable "tfc_organization" {
+#   type        = string
+#   description = "The TFC organization to set up."
+#   default     = "milesjh-sandbox"
+# }
 
-variable "tfc_vault_role" {
-  type        = string
-  description = "The Vault role used for JWT auth from TFC."
-  default     = "tfc-role"
-}
+# variable "tfc_vault_role" {
+#   type        = string
+#   description = "The Vault role used for JWT auth from TFC."
+#   default     = "tfc-role"
+# }
 
 variable "cloud_provider" {
   type        = string
