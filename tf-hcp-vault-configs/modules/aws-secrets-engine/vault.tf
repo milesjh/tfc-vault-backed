@@ -21,9 +21,9 @@ resource "vault_aws_secret_backend_role" "vault_role_federation_token_credential
   policy_document = data.aws_iam_policy_document.vault_dynamic_iam_user_policy.json
 }
 
-resource "vault_aws_secret_backend_role" "vault_role_assumed_role_credential_type" {
-  backend         = vault_aws_secret_backend.vault_aws.path
-  credential_type = "assumed_role"
-  name            = "vault-demo-assumed-role"
-  role_arns       = [aws_iam_role.vault_target_iam_role.arn]
-}
+# resource "vault_aws_secret_backend_role" "vault_role_assumed_role_credential_type" {
+#   backend         = vault_aws_secret_backend.vault_aws.path
+#   credential_type = "assumed_role"
+#   name            = "vault-demo-assumed-role"
+#   role_arns       = [aws_iam_role.vault_target_iam_role.arn]
+# }
