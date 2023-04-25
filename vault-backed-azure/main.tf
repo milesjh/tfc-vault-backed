@@ -101,9 +101,9 @@ resource "azurerm_network_interface" "example" {
 
 resource "azurerm_linux_virtual_machine" "example" {
   name                = "example-machine"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-  size                = "Standard_F2"
+  resource_group_name = data.azurerm_resource_group.main.name
+  location            = data.azurerm_resource_group.main.location
+  size                = "Standard_D2_v5"
   admin_username      = data.vault_kv_secret_v2.example.data["admin_username"]
   admin_password      = data.vault_kv_secret_v2.example.data["admin_password"]
   disable_password_authentication = false
