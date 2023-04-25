@@ -37,15 +37,15 @@ data "vault_kv_secret_v2" "example" {
   name  = "secret"
 }
 
-data "hcp_packer_iteration" "myapp" {
-  bucket_name = "hcp-packer-myapp"
-  channel     = "latest"
-}
+# data "hcp_packer_iteration" "myapp" {
+#   bucket_name = "hcp-packer-myapp"
+#   channel     = "latest"
+# }
 
 data "hcp_packer_image" "myapp" {
   bucket_name    = data.hcp_packer_iteration.myapp.bucket_name
+  channel = "latest"
   cloud_provider = "azure"
-  iteration_id   = data.hcp_packer_iteration.myapp.ulid
   region         = data.azurerm_resource_group.main.location
 }
 
