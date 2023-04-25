@@ -46,7 +46,7 @@ data "hcp_packer_image" "myapp" {
   bucket_name    = "hcp-packer-myapp"
   channel = "latest"
   cloud_provider = "azure"
-  region         = data.azurerm_resource_group.main.location
+  region         = "East US"
 }
 
 resource "azurerm_virtual_network" "main" {
