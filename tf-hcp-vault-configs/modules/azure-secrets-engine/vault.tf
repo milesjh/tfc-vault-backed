@@ -7,6 +7,18 @@ resource "vault_azure_secret_backend" "azure" {
   environment             = "AzurePublicCloud"
 }
 
+# resource "vault_azure_secret_backend_role" "role" {
+#   backend = vault_azure_secret_backend.azure.path
+#   role    = "generated_role"
+#   ttl     = 300
+#   max_ttl = 600
+
+#   azure_roles {
+#     role_name = "Contributor"
+#     scope     = "/subscriptions/${var.subscription_id}/resourceGroups/${var.rg_name}"
+#   }
+# }
+
 resource "vault_azure_secret_backend_role" "role1" {
   backend = vault_azure_secret_backend.azure.path
   role    = "generated_role"
@@ -15,18 +27,18 @@ resource "vault_azure_secret_backend_role" "role1" {
 
   azure_roles {
     role_name = "Contributor"
-    scope     = "/subscriptions/${var.subscription_id}/resourceGroups/${var.rg_name}"
+    scope     = "/subscriptions/${var.subscription_id}"
   }
 }
 
-resource "vault_azure_secret_backend_role" "role2" {
-  backend = vault_azure_secret_backend.azure.path
-  role    = "generated_role"
-  ttl     = 300
-  max_ttl = 600
+# resource "vault_azure_secret_backend_role" "role2" {
+#   backend = vault_azure_secret_backend.azure.path
+#   role    = "generated_role"
+#   ttl     = 300
+#   max_ttl = 600
 
-  azure_roles {
-    role_name = "Reader"
-    scope = "/subscriptions/${var.subscription_id}/resourceGroups/hcp-packer-myapp/"
-  }
-}
+#   azure_roles {
+#     role_name = "Reader"
+#     scope = "/subscriptions/${var.subscription_id}/resourceGroups/hcp-packer-myapp/"
+#   }
+# }
