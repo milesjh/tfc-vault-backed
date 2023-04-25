@@ -61,11 +61,6 @@ resource "azurerm_virtual_network" "main" {
     address_prefix = "10.0.1.0/24"
   }
 
-  subnet {
-    name           = "subnet2"
-    address_prefix = "10.0.2.0/24"
-  }
-
   tags = {
     environment = "sandbox"
   }
@@ -91,7 +86,7 @@ resource "azurerm_network_interface" "example" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_virtual_network.main.subnet[0].id
+    subnet_id                     = azurerm_virtual_network.main.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id = azurerm_public_ip.example.id
   }
