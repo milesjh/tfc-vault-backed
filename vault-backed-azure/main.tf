@@ -43,7 +43,7 @@ data "vault_kv_secret_v2" "example" {
 # }
 
 data "hcp_packer_image" "myapp" {
-  bucket_name    = data.hcp_packer_iteration.myapp.bucket_name
+  bucket_name    = "hcp-packer-myapp"
   channel = "latest"
   cloud_provider = "azure"
   region         = data.azurerm_resource_group.main.location
