@@ -46,7 +46,7 @@ data "hcp_packer_image" "myapp" {
   bucket_name    = data.hcp_packer_iteration.myapp.bucket_name
   cloud_provider = "azure"
   iteration_id   = data.hcp_packer_iteration.myapp.ulid
-  region         = var.region
+  region         = data.azurerm_resource_group.main.location
 }
 
 resource "azurerm_virtual_network" "main" {
@@ -91,7 +91,7 @@ resource "azurerm_network_interface" "example" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.example.id
+    subnet_id                     = azurerm_virtual_network.main.subnet[0].id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id = azurerm_public_ip.example.id
   }
