@@ -8,10 +8,6 @@ data "aws_region" "current" {}
 
 # Vault Mount AWS Config Setup
 
-# data "aws_iam_policy" "vault_aws_mount_demo_user_permissions" {
-#   name = "DemoUser"
-# }
-
 resource "aws_iam_policy" "vault_aws_mount_demo_user_permissions" {
   name        = "VaultAWSDemoUser"
   path        = "/"
@@ -75,14 +71,6 @@ resource "aws_iam_access_key" "vault_mount_user" {
 
 # Vault Mount AWS Role Setup
 
-# data "aws_iam_policy_document" "vault_dynamic_iam_user_policy" {
-#   statement {
-#     sid       = "VaultDemoUserDescribeEC2Regions"
-#     actions   = ["ec2:DescribeRegions", "ec2:DescribeInstances"]
-#     resources = ["*"]
-#   }
-# }
-
 resource "aws_iam_policy" "vault_dynamic_iam_user_policy" {
   name        = "DynamicVaultUser-EC2"
   path        = "/"
@@ -107,21 +95,3 @@ resource "aws_iam_policy" "vault_dynamic_iam_user_policy" {
     ]
   })
 }
-
-# data "aws_iam_policy_document" "vault_dynamic_iam_role_policy" {
-#   statement {
-#     sid       = "VaultDemoRoleDescribeEC2Regions"
-#     actions   = ["ec2:DescribeRegions", "ec2:DescribeInstances"]
-#     # resources = ["*"]
-#   }
-# }
-
-# # data "aws_iam_role" "vault_target_iam_role" {
-# #   name = "vault-assumed-role-credentials-demo"
-# # }
-
-# resource "aws_iam_role" "vault_target_iam_role" {
-#   name               = "vault-assumed-role-credentials-demo"
-#   path               = "/"
-#   assume_role_policy = data.aws_iam_policy_document.vault_dynamic_iam_role_policy.json
-# }

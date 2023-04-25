@@ -5,11 +5,6 @@ terraform {
       version = "~> 4.0"
     }
 
-    # google = {
-    #   version = "~> 4.0"
-    #   source  = "hashicorp/google"
-    # }
-
     tfe = {
       source  = "hashicorp/tfe"
       version = "~> 0.44"
@@ -33,10 +28,7 @@ provider "aws" {
   region = var.aws_region
 }
 
-# provider "google" {
-#   project = var.google_project_id
-#   region  = "global"
-# }
+provider "tfe"{}
 
 data "tfe_organization" "current" {
   name = var.tfc_organization
@@ -58,6 +50,8 @@ provider "vault" {
   namespace = "admin"
 }
 
+#######KVv2#########
+
 resource "vault_mount" "kvv2" {
   path        = "kv"
   type        = "kv"
@@ -78,10 +72,14 @@ resource "vault_kv_secret_v2" "example" {
   data_json = jsonencode(
     {
       zip = "zap",
-      foo = "bar"
+      foo = "bar",
+      admin_username = "${var.admin_username}",
+      admin_password = "${var.admin_password}"
     }
   )
 }
+
+#######JWT#########
 
 module "jwt_auth" {
   source                = "./modules/jwt-auth"
@@ -91,39 +89,12 @@ module "jwt_auth" {
   tfc_workspace_name    = "*"
 }
 
+#######AWS#########
+
 module "aws_secrets" {
   source        = "./modules/aws-secrets-engine"
   email_address = data.tfe_organization.current.email
 }
-
-# resource "tfe_variable_set" "vault_backed_aws_role" {
-#   organization = var.tfc_organization
-#   name         = "AWS Vault-Backed Dynamic Credentials - Assumed Role"
-#   description  = "Vault-backed dynamic credentials for AWS provider using assume_role."
-# }
-
-# # moved {
-# #   from = tfe_variable_set.vault_backed_aws
-# #   to   = tfe_variable_set.vault_backed_aws_role
-# # }
-
-# resource "tfe_variable" "vault_backed_aws_role" {
-#   for_each = {
-#     TFC_VAULT_PROVIDER_AUTH             = "true"
-#     TFC_VAULT_ADDR                      = data.tfe_outputs.tf-hcp-vault.values.vault_public_endpoint_url
-#     TFC_VAULT_NAMESPACE                 = "admin"
-#     TFC_VAULT_RUN_ROLE                  = var.tfc_vault_role
-#     TFC_VAULT_BACKED_AWS_AUTH           = "true"
-#     TFC_VAULT_BACKED_AWS_AUTH_TYPE      = "assumed_role"
-#     TFC_VAULT_BACKED_AWS_RUN_VAULT_ROLE = module.aws_secrets.vault_role_assumed_role_credential_type
-#     TFC_VAULT_BACKED_AWS_RUN_ROLE_ARN   = module.aws_secrets.vault_target_iam_role_arn
-#   }
-
-#   category        = "env"
-#   key             = each.key
-#   value           = each.value
-#   variable_set_id = tfe_variable_set.vault_backed_aws_role.id
-# }
 
 resource "tfe_variable_set" "vault_backed_aws_iam" {
   organization = var.tfc_organization
@@ -153,45 +124,7 @@ resource "tfe_workspace_variable_set" "vault_backed_aws_iam" {
   workspace_id    = data.tfe_outputs.tf-admin.values.aws_workspace_id
 }
 
-# module "google_secrets" {
-#   count      = var.google_project_id == null ? 0 : 1
-#   source     = "./modules/gcp-secrets-engine"
-#   project_id = var.google_project_id
-# }
-
-# resource "tfe_variable_set" "vault_backed_gcp" {
-#   organization = var.tfc_organization
-#   name         = "GCP Vault-Backed Dynamic Credentials"
-#   description  = "Vault-backed dynamic credentials for Google Cloud provider using roleset/access_token."
-# }
-
-# resource "tfe_variable" "vault_backed_gcp" {
-#   for_each = {
-#     TFC_VAULT_PROVIDER_AUTH                  = "true"
-#     TFC_VAULT_ADDR                           = data.tfe_outputs.vault_cluster.values.vault_public_endpoint_url
-#     TFC_VAULT_NAMESPACE                      = "admin"
-#     TFC_VAULT_RUN_ROLE                       = var.tfc_vault_role
-#     TFC_VAULT_BACKED_GCP_AUTH                = "true"
-#     TFC_VAULT_BACKED_GCP_AUTH_TYPE           = "roleset/access_token"
-#     TFC_VAULT_BACKED_GCP_PLAN_VAULT_ROLESET  = module.google_secrets[0].vault_role_gcp_viewer
-#     TFC_VAULT_BACKED_GCP_APPLY_VAULT_ROLESET = module.google_secrets[0].vault_role_gcp_editor
-#   }
-
-#   category        = "env"
-#   key             = each.key
-#   value           = each.value
-#   variable_set_id = tfe_variable_set.vault_backed_gcp.id
-# }
-
-# data "tfe_project" "gcp" {
-#   name         = "Google"
-#   organization = var.tfc_organization
-# }
-
-# resource "tfe_project_variable_set" "vault_backed_gcp" {
-#   variable_set_id = tfe_variable_set.vault_backed_gcp.id
-#   project_id      = data.tfe_project.gcp.id
-# }
+#######AZURE#########
 
 module "azure_secrets" {
   source          = "./modules/azure-secrets-engine"

@@ -14,11 +14,6 @@ variable "tfc_vault_role" {
   default     = "tfc-role"
 }
 
-variable "google_project_id" {
-  type        = string
-  description = "ID of the Google Cloud project."
-}
-
 variable "client_id" {
   type        = string
   description = "Azure static cred params for Vault Config"
@@ -42,4 +37,12 @@ variable "tenant_id" {
 variable "rg_name" {
   type        = string
   description = "Azure static cred params for Vault Config"
+}
+
+variable "admin_username" {
+  sensitive = true
+}
+
+variable "admin_password" {
+  sensitive = true
 }

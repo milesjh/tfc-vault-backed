@@ -30,15 +30,3 @@ resource "vault_azure_secret_backend_role" "role1" {
     scope     = "/subscriptions/${var.subscription_id}"
   }
 }
-
-# resource "vault_azure_secret_backend_role" "role2" {
-#   backend = vault_azure_secret_backend.azure.path
-#   role    = "generated_role"
-#   ttl     = 300
-#   max_ttl = 600
-
-#   azure_roles {
-#     role_name = "Reader"
-#     scope = "/subscriptions/${var.subscription_id}/resourceGroups/hcp-packer-myapp/"
-#   }
-# }
