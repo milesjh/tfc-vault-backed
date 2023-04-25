@@ -68,6 +68,13 @@ resource "azurerm_virtual_network" "main" {
   
 }
 
+resource "azurerm_subnet" "main" {
+  name                 = "internal"
+  resource_group_name  = data.azurerm_resource_group.main.name
+  virtual_network_name = data.azurerm_virtual_network.main.name
+  address_prefixes     = ["10.0.2.0/24"]
+}
+
 resource "azurerm_public_ip" "example" {
   name                = "acceptanceTestPublicIp1"
   resource_group_name = data.azurerm_resource_group.main.name
@@ -86,7 +93,7 @@ resource "azurerm_network_interface" "example" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_virtual_network.main.subnet.id
+    subnet_id                     = azurerm_subnet.main.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id = azurerm_public_ip.example.id
   }
