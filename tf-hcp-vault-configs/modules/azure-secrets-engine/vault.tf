@@ -17,4 +17,8 @@ resource "vault_azure_secret_backend_role" "role" {
     role_name = "Contributor"
     scope     = "/subscriptions/${var.subscription_id}/resourceGroups/${var.rg_name}"
   }
+  azure_roles {
+    role_name = "Reader"
+    scope = "/subscriptions/${var.subscription_id}/resourceGroups/hcp-packer-myapp/"
+  }
 }
