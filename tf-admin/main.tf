@@ -5,17 +5,6 @@ terraform {
       version = "~> 0.44"
     }
   }
-
-  # cloud {
-  #   organization = "milesjh-sandbox"
-  #   workspaces {
-  #     tags = [
-  #       "application:tfc",
-  #       "cloud:tfc",
-  #       "env:demo"
-  #     ]
-  #   }
-  # }
 }
 
 data "tfe_organization" "current" {
@@ -30,11 +19,6 @@ data "tfe_oauth_client" "github" {
 resource "tfe_project" "solution_series" {
   organization = data.tfe_organization.current.name
   name         = "Solution Series"
-}
-
-resource "tfe_agent_pool" "vault" {
-  name         = "vault"
-  organization = tfe_project.solution_series.organization
 }
 
 resource "tfe_workspace" "main" {
@@ -70,17 +54,3 @@ resource "tfe_variable" "tf-hcp-vault-configs" {
   category     = "terraform"
   workspace_id = tfe_workspace.main["tf-hcp-vault-configs"].id
 }
-
-# resource "tfe_workspace" "tf-hcp-vault-configs" {
-#   name           = "tf-hcp-vault-configs"
-#   organization   = tfe_project.solution_series.organization
-#   project_id = tfe_project.solution_series.id
-#   execution_mode = "remote"
-# #   agent_pool_id = tfe_agent_pool.vault.id
-#   working_directory = "/tf-hcp-vault"
-#   trigger_prefixes = "/tf-hcp-vault"
-#   vcs_repo {
-#     identifier = "milesjh/tfc-vault-backed"
-#     oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
-#   }
-# }
