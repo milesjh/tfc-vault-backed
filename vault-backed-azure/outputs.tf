@@ -5,5 +5,5 @@ output "vnet_address_space" {
 
 output "vm_public_ip" {
   description = "Public IP of the deployed VM"
-  value = azurerm_public_ip.example.fqdn
+  value = azurerm_linux_virtual_machine.example.public_ip_address
 }
