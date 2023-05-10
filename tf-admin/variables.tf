@@ -19,8 +19,8 @@ variable "tf-hcp-vault-vars" {
   type        = map(any)
   description = "Variables to add to tf-hcp-vault workspace"
   default = {
-    cloud_provider = "aws"
-    region         = "us-east-2"
+    cloud_provider = "azure"
+    region         = "centralus"
     prefix         = "milesjh"
     vault_tier     = "dev"
   }
