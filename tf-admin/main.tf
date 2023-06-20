@@ -31,6 +31,7 @@ resource "tfe_workspace" "main" {
   working_directory   = each.key
   trigger_prefixes    = ["${each.key}"]
   global_remote_state = true
+  terraform_version = "~>1.5"
   vcs_repo {
     identifier     = "milesjh/tfc-vault-backed"
     oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
