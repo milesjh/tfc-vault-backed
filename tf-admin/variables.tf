@@ -22,7 +22,7 @@ variable "tf-hcp-vault-vars" {
     cloud_provider = "azure"
     region         = "centralus"
     prefix         = "milesjh"
-    vault_tier     = "dev"
+    vault_tier     = "plus_small"
   }
 }
 

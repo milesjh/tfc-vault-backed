@@ -8,7 +8,7 @@ data "aws_region" "current" {}
 
 # Vault Mount AWS Config Setup
 
-resource "aws_iam_policy" "vault_aws_mount_demo_user_permissions" {
+/* resource "aws_iam_policy" "vault_aws_mount_demo_user_permissions" {
   name        = "VaultAWSDemoUser"
   path        = "/"
   description = "Vault AWS Secrets Engine User Policy"
@@ -94,4 +94,25 @@ resource "aws_iam_policy" "vault_dynamic_iam_user_policy" {
       }
     ]
   })
+} */
+
+
+# Create IAM user and keys that Vault can use to connect to AWS to generate short lived credentials
+resource "aws_iam_user" "vault_aws_user" {
+  name          = "vault-aws-secrets-user"
+  force_destroy = true
+}
+
+resource "aws_iam_policy" "vault_aws_policy" {
+  name   = "vault-aws-secrets-user-policy"
+  policy = data.aws_iam_policy_document.vault_aws_secrets_user_policy.json
+}
+
+resource "aws_iam_user_policy_attachment" "vault_aws_user" {
+  user       = aws_iam_user.vault_aws_user.name
+  policy_arn = aws_iam_policy.vault_aws_policy.arn
+}
+
+resource "aws_iam_access_key" "vault_aws_key" {
+  user = aws_iam_user.vault_aws_user.name
 }

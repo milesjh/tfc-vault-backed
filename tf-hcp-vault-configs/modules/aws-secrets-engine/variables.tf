@@ -9,3 +9,5 @@ variable "aws_account_id" {
   description = "AWS account ID to be used for Vault IAM Users"
   default     = "710320297709"
 }
+
+variable "region" {}
