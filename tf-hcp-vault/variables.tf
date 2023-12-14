@@ -41,3 +41,13 @@ variable "vault_tier" {
     error_message = "Invalid tier was specified."
   }
 }
+
+variable "subscription_id" {
+  type        = string
+  description = "The Azure AD Subscription ID"
+}
+
+variable "tenant_id" {
+  type        = string
+  description = "The Azure AD Tenant ID"
+}
