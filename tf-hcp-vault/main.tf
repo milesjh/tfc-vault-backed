@@ -86,7 +86,7 @@ resource "hcp_hvn_route" "route" {
 
 resource "azurerm_resource_group" "rg" {
   name     = "rg-${local.short_uid}"
-  location = "East US"
+  location = var.region
 }
 
 resource "azurerm_virtual_network" "vnet" {
