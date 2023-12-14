@@ -137,38 +137,38 @@ resource "azurerm_virtual_network_gateway" "gateway" {
   }
 }
 
-locals {
-  application_id = "dfaaeca7-2a95-423d-afd9-cabca5f5a252"
-  role_def_name  = join("-", ["hcp-hvn-peering-access", local.application_id])
-  vnet_id        = "/subscriptions/fbdcafa5-e5c9-4eb6-920e-34a9ec87049d/resourceGroups/rg-1abb04aa-9/providers/Microsoft.Network/virtualNetworks/vnet-1abb04aa-9"
-}
+# locals {
+#   application_id = "dfaaeca7-2a95-423d-afd9-cabca5f5a252"
+#   role_def_name  = join("-", ["hcp-hvn-peering-access", local.application_id])
+#   vnet_id        = "/subscriptions/fbdcafa5-e5c9-4eb6-920e-34a9ec87049d/resourceGroups/rg-1abb04aa-9/providers/Microsoft.Network/virtualNetworks/vnet-1abb04aa-9"
+# }
 
-resource "azuread_service_principal" "principal" {
-  application_id = local.application_id
-}
+# resource "azuread_service_principal" "principal" {
+#   application_id = local.application_id
+# }
 
-resource "azurerm_role_definition" "definition" {
-  name  = local.role_def_name
-  scope = local.vnet_id
+# resource "azurerm_role_definition" "definition" {
+#   name  = local.role_def_name
+#   scope = local.vnet_id
 
-  assignable_scopes = [
-    local.vnet_id
-  ]
+#   assignable_scopes = [
+#     local.vnet_id
+#   ]
 
-  permissions {
-    actions = [
-      "Microsoft.Network/virtualNetworks/peer/action",
-      "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/read",
-      "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/write"
-    ]
-  }
-}
+#   permissions {
+#     actions = [
+#       "Microsoft.Network/virtualNetworks/peer/action",
+#       "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/read",
+#       "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/write"
+#     ]
+#   }
+# }
 
-resource "azurerm_role_assignment" "role_assignment" {
-  principal_id       = azuread_service_principal.principal.id
-  role_definition_id = azurerm_role_definition.definition.role_definition_resource_id
-  scope              = local.vnet_id
-}
+# resource "azurerm_role_assignment" "role_assignment" {
+#   principal_id       = azuread_service_principal.principal.id
+#   role_definition_id = azurerm_role_definition.definition.role_definition_resource_id
+#   scope              = local.vnet_id
+# }
 
 
 resource "hcp_vault_cluster" "this" {
