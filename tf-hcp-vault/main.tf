@@ -49,7 +49,7 @@ resource "hcp_hvn" "vault" {
 }
 
 resource "hcp_azure_peering_connection" "peering" {
-  hvn_link                 = hcp_hvn.hvn.self_link
+  hvn_link                 = hcp_hvn.vault.self_link
   peering_id               = "pcx-${local.short_uid}"
   peer_subscription_id     = local.subscription_id
   peer_tenant_id           = local.tenant_id
@@ -65,7 +65,7 @@ resource "hcp_azure_peering_connection" "peering" {
 // This data source is the same as the resource above, but waits for the connection
 // to be Active before returning.
 data "hcp_azure_peering_connection" "peering" {
-  hvn_link              = hcp_hvn.hvn.self_link
+  hvn_link              = hcp_hvn.vault.self_link
   peering_id            = hcp_azure_peering_connection.peering.peering_id
   wait_for_active_state = true
 }
@@ -74,7 +74,7 @@ data "hcp_azure_peering_connection" "peering" {
 // peering is in an Active state.
 resource "hcp_hvn_route" "route" {
   hvn_route_id     = "route-${local.short_uid}"
-  hvn_link         = hcp_hvn.hvn.self_link
+  hvn_link         = hcp_hvn.vault.self_link
   destination_cidr = "192.168.0.0/16"
   target_link      = data.hcp_azure_peering_connection.peering.self_link
 
