@@ -58,7 +58,7 @@ resource "hcp_azure_peering_connection" "peering" {
   peer_vnet_region         = var.region
 
   // Hub / Spoke networking config
-  allow_forwarded_traffic = false
+  allow_forwarded_traffic = true
   use_remote_gateways     = true
 }
 
