@@ -174,7 +174,7 @@ resource "azurerm_virtual_network_gateway" "gateway" {
 resource "hcp_vault_cluster" "this" {
   hvn_id          = hcp_hvn.vault.hvn_id
   cluster_id      = "${var.prefix}-vault-${var.cloud_provider}-${local.region_short}"
-  public_endpoint = true
+  public_endpoint = false
   tier            = var.vault_tier
 }
 
