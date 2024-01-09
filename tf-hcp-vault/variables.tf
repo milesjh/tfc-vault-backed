@@ -36,10 +36,10 @@ variable "vault_tier" {
   description = "Sizing tier of the Vault cluster."
   default     = "STARTER_SMALL"
 
-  validation {
-    condition     = contains(["dev", "starter_small", "standard_small", "standard_medium", "standard_large", "plus_small", "plus_medium", "plus_large"], var.vault_tier)
-    error_message = "Invalid tier was specified."
-  }
+  # validation {
+  #   condition     = contains(["dev", "starter_small", "standard_small", "standard_medium", "standard_large", "plus_small", "plus_medium", "plus_large"], var.vault_tier)
+  #   error_message = "Invalid tier was specified."
+  # }
 }
 
 variable "subscription_id" {
