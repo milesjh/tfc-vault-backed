@@ -32,7 +32,7 @@ variable "cidr_block" {
 }
 
 variable "vault_tier" {
-  type        = string
+  type        = lower(string)
   description = "Sizing tier of the Vault cluster."
   default     = "STARTER_SMALL"
 
